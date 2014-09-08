@@ -1,0 +1,10 @@
+(ROOT
+  (S
+    (NP (NNP Vinken))
+    (VP (MD will)
+      (VP (VB join)
+        (NP (DT the) (NN board))
+        (PP (IN as)
+          (NP (DT a) (JJ nonexecutive) (NN director)))
+        (NP (NNP Nov) (CD 29))))
+    (. .)))

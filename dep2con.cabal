@@ -1,0 +1,66 @@
+name:                dep2con
+version:             0.1.0.0
+synopsis:            Several algorithms for converting dependency
+                     structures into constituency structures. 
+license:             BSD3
+license-file:        LICENSE
+author:              Pepijn Kokke
+maintainer:          pepijn.kokke@gmail.com
+copyright:           Pepijn Kokke (c) 2014
+category:            Language
+build-type:          Simple
+cabal-version:       >=1.10
+
+library
+  build-depends:     base >=4.7 && <4.8, containers, uu-parsinglib, monad-supply
+  hs-source-dirs:    src
+  exposed-modules:   Language.Word
+                   , Language.Word.Parse
+                   , Language.POS
+                   , Language.POS.Parse
+                   , Language.Structure.Dependency
+                   , Language.Structure.Dependency.Parse
+                   , Language.Structure.Constituency
+                   , Language.Structure.Conversion.Dep2Con
+  default-language:  Haskell2010
+
+
+executable printdep
+  main-is:           PrintDep.hs
+  build-depends:     base >=4.7 && <4.8, containers, uu-parsinglib, monad-supply
+  hs-source-dirs:    src
+  other-modules:     Language.Word
+                   , Language.Word.Parse
+                   , Language.POS
+                   , Language.POS.Parse
+                   , Language.Structure.Dependency
+                   , Language.Structure.Dependency.Parse
+  default-language:  Haskell2010
+
+
+executable printcon
+  main-is:           PrintCon.hs
+  build-depends:     base >=4.7 && <4.8, containers, uu-parsinglib, monad-supply
+  hs-source-dirs:    src
+  other-modules:     Language.Word
+                   , Language.Word.Parse
+                   , Language.POS
+                   , Language.POS.Parse
+                   , Language.Structure.Constituency
+                   , Language.Structure.Constituency.Parse
+  default-language:  Haskell2010
+
+
+executable dep2con
+  main-is:           Dep2Con.hs
+  build-depends:     base >=4.7 && <4.8, containers, uu-parsinglib, monad-supply
+  hs-source-dirs:    src
+  other-modules:     Language.Word
+                   , Language.Word.Parse
+                   , Language.POS
+                   , Language.POS.Parse
+                   , Language.Structure.Dependency
+                   , Language.Structure.Dependency.Parse
+                   , Language.Structure.Constituency
+                   , Language.Structure.Conversion.Dep2Con
+  default-language:  Haskell2010
