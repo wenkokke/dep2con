@@ -2,7 +2,7 @@ module Language.Structure.Dependency where
 
 import qualified Data.Tree as Rose
 import Language.POS (POS)
-import Language.Word (Word (..))
+import Language.Word (Word(Word))
 
 
 -- |Labels are labels on the links in a dependency tree.
@@ -36,3 +36,13 @@ drawTree ct = Rose.drawTree (go ct)
   where
     go :: Tree -> Rose.Tree String
     go (Node gov deps) = Rose.Node (show gov) (map (go . dependent) deps)
+
+
+index :: Tree -> Int
+index (Node (Word _ i) deps) = minimum (i : map (index . dependent) deps)
+
+instance Ord Tree where
+  compare x y = compare (index x) (index y)
+
+instance Ord Link where
+  compare (Link _ x) (Link _ y) = compare x y

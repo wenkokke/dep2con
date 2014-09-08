@@ -1,28 +1,61 @@
 module Language.Structure.Conversion.Dep2Con where
 
-import           Language.POS (POS, toP)
+import           Data.List (sort)
+import           Language.POS (POS(POS), toXP, toX')
 import qualified Language.Structure.Constituency as Con
+import           Language.Structure.Dependency (dependent)
 import qualified Language.Structure.Dependency as Dep
-import           Language.Word (Word (..))
-
-{-
-xBar :: Dep.Tree -> Con.Tree
-xBar (Dep.Node gov deps) = _
+import           Language.Word (Word(Word))
 
 
-collins :: (Word -> POS) -> Dep.Tree -> Con.Tree
-collins tag (Dep.Node word [ ])
-  = Con.Node (tag word) [Con.Leaf word]
-collins tag (Dep.Node word (dep : deps))
-  = Con.Node (toP (tag' dep')) (dep' : word' : deps')
+isSpec, isArg, isMod :: Dep.Link -> Bool
+isSpec = undefined
+isArg  = undefined
+isMod  = undefined
+
+(<:) :: [a] -> a -> [a]
+xs <: x = xs ++ [x]
+
+
+-- |Convert dependency structures to constituency structures,
+--  remaining faithful to x-bar theory to the fullest extend.
+covington :: (Word -> POS) -> Dep.Tree -> Con.Tree
+covington tag (Dep.Node gov deps) =
+  Con.Node xp
+    ( map (covington tag . dependent) specs
+    <: Con.Node x'
+      ( map (covington tag . dependent) mods
+      <: Con.Node x'
+        ( map (covington tag . dependent) args
+        <: Con.Node x
+          [
+            Con.Leaf gov
+          ]
+        )
+      )
+    )
   where
-    tag' :: Con.Tree -> POS
-    tag' (Con.Leaf word) = tag word
-    tag' (Con.Node pos _) = pos
-    dep'   :: Con.Tree
-    dep'   = collins tag . unLink $ dep
-    word'  :: Con.Tree
-    word'  = Con.Node (tag word) [Con.Leaf word]
-    deps'  :: [Con.Tree]
-    deps'  = map (collins tag . Dep.dependent) deps
--}
+    xp    = toXP x
+    x'    = toX' x
+    x     = tag gov
+    specs = filter isSpec deps
+    mods  = filter isMod  deps
+    args  = filter isArg  deps
+
+
+-- |Convert dependency structures to constituency structures,
+--  ensuring that only the minimal number of projections are made.
+collins :: (Word -> POS) -> Dep.Tree -> Con.Tree
+collins tag (Dep.Node (Word "ROOT" 0) deps)
+  = Con.Node (POS "ROOT") (map (collins tag . dependent) deps)
+collins tag (Dep.Node gov [])
+  = Con.Node (tag gov) [Con.Leaf gov]
+collins tag (Dep.Node gov deps)
+  = Con.Node xp (sort (gov' : deps'))
+  where
+    xp    = toXP x
+    x     = tag gov
+    gov'  :: Con.Tree
+    gov'  = Con.Node x [Con.Leaf gov]
+    deps' :: [Con.Tree]
+    deps' = map (collins tag . dependent) deps

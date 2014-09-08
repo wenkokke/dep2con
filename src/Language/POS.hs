@@ -11,5 +11,9 @@ instance Show POS where
 
 
 -- |Conversion to a phrasal tag.
-toP :: POS -> POS
-toP (POS (x:_)) = POS (x : "P")
+toXP :: POS -> POS
+toXP (POS (x:_)) = POS (x : "P")
+
+-- |Conversion to a bar tag.
+toX' :: POS -> POS
+toX' (POS (x:_)) = POS (x : "'")

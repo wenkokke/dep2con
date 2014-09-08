@@ -2,9 +2,10 @@
 module Language.Structure.Dependency.Parse (pTree) where
 
 
+import Data.List (sort)
+import Language.Structure.Dependency (Tree(..), Link(..), Label(..))
 import Language.Word (Word (..))
 import Language.Word.Parse (pWord)
-import Language.Structure.Dependency (Tree(..), Link(..), Label(..))
 import Text.ParserCombinators.UU ((<$>),pSome)
 import Text.ParserCombinators.UU.BasicInstances (Parser)
 import Text.ParserCombinators.UU.Idioms (iI,Ii (..))
@@ -22,9 +23,9 @@ pTree = flip depsToTree (Word "ROOT" 0) <$> pDeps
     pDeps = pSome (lexeme pDep)
 
     depsToTree :: [(Label, Word, Word)] -> Word -> Tree
-    depsToTree deps g = Node g (toLink <$> depsOf g)
+    depsToTree deps g = Node g (sort $ mkLink <$> getDeps g)
       where
-        depsOf :: Word -> [(Label, Word, Word)]
-        depsOf w = filter (\ (_, g, _) -> g == w) deps
-        toLink :: (Label, Word, Word) -> Link
-        toLink (r , _ , d) = Link r (depsToTree deps d)
+        getDeps :: Word -> [(Label, Word, Word)]
+        getDeps w = filter (\ (_, g, _) -> g == w) deps
+        mkLink :: (Label, Word, Word) -> Link
+        mkLink (r , _ , d) = Link r (depsToTree deps d)

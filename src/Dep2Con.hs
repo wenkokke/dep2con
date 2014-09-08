@@ -1,6 +1,6 @@
 import           Language.POS (POS(..))
 import qualified Language.Structure.Constituency as Con
-import           Language.Structure.Conversion.D2C
+import           Language.Structure.Conversion.Dep2Con
 import qualified Language.Structure.Dependency as Dep
 import qualified Language.Structure.Dependency.Parse as Dep (pTree)
 import           Language.Word (Word(..))
@@ -23,7 +23,6 @@ main = do
       tag (Word _ i) = snd (tags !! (i - 1))
 
   let depTree  = runParser depFile Dep.pTree depContents
-  --let conTree  = collins (tag tags) depTree
+  let conTree  = collins tag depTree
 
-  --putStrLn (Con.drawTree conTree)
-  putStrLn "HELLO WORLD"
+  putStrLn (Con.drawTree conTree)
