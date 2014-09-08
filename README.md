@@ -4,9 +4,9 @@ Several algorithms for converting dependency structures into constituency struct
 
 ---
 
-M. Collins, J. Hajic, L. Ramshaw, and C. Tillmann. [A Statistical
-Parser for Czech][^Collins1999]. Proceedings of ACL-1999, pages
-505-512, 1999.
+Michael Collins, Jan Hajic, Lance Ramshaw, and Christoph
+Tillmann. [A Statistical Parser for Czech][^Collins1999]. Proceedings
+of ACL-1999, pages 505-512, 1999.
 
 Dan Klein and Christopher D. Manning. 2003. [Accurate Unlexicalized
 Parsing][^Klein2003]. Proceedings of the 41st Meeting of the
