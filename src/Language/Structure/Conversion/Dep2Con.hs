@@ -5,7 +5,7 @@ import           Language.POS (POS(POS), toXP, toX')
 import qualified Language.Structure.Constituency as Con
 import           Language.Structure.Dependency (dependent)
 import qualified Language.Structure.Dependency as Dep
-import           Language.Word (Word(Word))
+import           Language.Word (Word(Word,index))
 
 
 isSpec, isArg, isMod :: POS -> Dep.Link -> Bool
