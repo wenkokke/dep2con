@@ -8,7 +8,7 @@ import qualified Language.Structure.Dependency as Dep
 import           Language.Word (Word(Word))
 
 
-isSpec, isArg, isMod :: Dep.Link -> Bool
+isSpec, isArg, isMod :: POS -> Dep.Link -> Bool
 isSpec = undefined
 isArg  = undefined
 isMod  = undefined
@@ -38,9 +38,9 @@ covington tag (Dep.Node gov deps) =
     xp    = toXP x
     x'    = toX' x
     x     = tag gov
-    specs = filter isSpec deps
-    mods  = filter isMod  deps
-    args  = filter isArg  deps
+    specs = filter (isSpec x) deps
+    mods  = filter (isMod x) deps
+    args  = filter (isArg x) deps
 
 
 -- |Convert dependency structures to constituency structures,
