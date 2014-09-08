@@ -1,14 +1,14 @@
 {-# LANGUAGE FlexibleContexts #-}
-module Language.Structure.Dependency.Parse where
+module Language.Structure.Dependency.Parse (pTree) where
 
 
 import Language.Word (Word (..))
 import Language.Word.Parse (pWord)
 import Language.Structure.Dependency (Tree(..), Link(..), Label(..))
-import Text.ParserCombinators.UU
+import Text.ParserCombinators.UU ((<$>),pSome)
 import Text.ParserCombinators.UU.BasicInstances (Parser)
 import Text.ParserCombinators.UU.Idioms (iI,Ii (..))
-import Text.ParserCombinators.UU.Utils
+import Text.ParserCombinators.UU.Utils (lexeme,pLetter)
 
 
 pTree :: Parser Tree

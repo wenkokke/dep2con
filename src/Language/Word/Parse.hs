@@ -1,5 +1,5 @@
 {-# LANGUAGE FlexibleContexts #-}
-module Language.Word.Parse where
+module Language.Word.Parse (pWord, pText, pTagged, pSentence) where
 
 import Language.POS (POS(..))
 import Language.POS.Parse (pPOS)
