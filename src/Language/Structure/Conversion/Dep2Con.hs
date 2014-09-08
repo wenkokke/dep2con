@@ -1,6 +1,6 @@
 module Language.Structure.Conversion.Dep2Con where
 
-import           Data.List (sort)
+import           Data.List (insert)
 import           Language.POS (POS(POS), toXP, toX')
 import qualified Language.Structure.Constituency as Con
 import           Language.Structure.Dependency (dependent)
@@ -51,7 +51,7 @@ collins tag (Dep.Node (Word "ROOT" 0) deps)
 collins tag (Dep.Node gov [])
   = Con.Node (tag gov) [Con.Leaf gov]
 collins tag (Dep.Node gov deps)
-  = Con.Node xp (sort (gov' : deps'))
+  = Con.Node xp (insert gov' deps')
   where
     xp    = toXP x
     x     = tag gov
