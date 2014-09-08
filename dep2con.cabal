@@ -12,7 +12,8 @@ build-type:          Simple
 cabal-version:       >=1.10
 
 library
-  build-depends:     base >=4.7 && <4.8, containers, uu-parsinglib, monad-supply
+  build-depends:     base >=4.7 && <4.8, containers, ListLike, monad-supply,
+                     uu-parsinglib
   hs-source-dirs:    src
   exposed-modules:   Language.Word
                    , Language.Word.Parse
@@ -27,7 +28,8 @@ library
 
 executable printdep
   main-is:           PrintDep.hs
-  build-depends:     base >=4.7 && <4.8, containers, uu-parsinglib, monad-supply
+  build-depends:     base >=4.7 && <4.8, containers, ListLike, monad-supply,
+                     uu-parsinglib
   hs-source-dirs:    src
   other-modules:     Language.Word
                    , Language.Word.Parse
@@ -40,7 +42,8 @@ executable printdep
 
 executable printcon
   main-is:           PrintCon.hs
-  build-depends:     base >=4.7 && <4.8, containers, uu-parsinglib, monad-supply
+  build-depends:     base >=4.7 && <4.8, containers, ListLike, monad-supply,
+                     uu-parsinglib
   hs-source-dirs:    src
   other-modules:     Language.Word
                    , Language.Word.Parse
@@ -53,7 +56,8 @@ executable printcon
 
 executable dep2con
   main-is:           Dep2Con.hs
-  build-depends:     base >=4.7 && <4.8, containers, uu-parsinglib, monad-supply
+  build-depends:     base >=4.7 && <4.8, containers, ListLike, monad-supply,
+                     uu-parsinglib
   hs-source-dirs:    src
   other-modules:     Language.Word
                    , Language.Word.Parse

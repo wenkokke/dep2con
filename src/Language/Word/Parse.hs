@@ -2,7 +2,7 @@
 module Language.Word.Parse where
 
 import Language.POS (POS(..))
-import Language.POS.Parse (pPOS,pRawPOS)
+import Language.POS.Parse (pPOS)
 import Language.Word (Word(..))
 import Control.Applicative ((<$>),(<|>))
 import Text.ParserCombinators.UU (pSome,(<?>))
@@ -12,22 +12,15 @@ import Text.ParserCombinators.UU.Utils (lexeme,pLetter,pDigit,pDot,pNatural)
 
 -- |Parser for words.
 pWord :: Parser Word
-pWord = iI Word pRawWord '-' pNatural Ii <?> "Word"
+pWord = lexeme $ iI Word pText '-' pNatural Ii <?> "Word"
 
 -- |Parser for text.
-pRawWord :: Parser String
-pRawWord = pSome (pLetter <|> pDigit) <|> (return <$> pDot) <?> "Text"
+pText :: Parser String
+pText = pSome (pLetter <|> pDigit) <|> (return <$> pDot) <?> "Text"
 
 -- |Parser for tagged words.
 pTagged :: Parser (String, POS)
-pTagged = lexeme $ iI (,) pRawWord '/' pPOS Ii
-
--- |Parser for raw tagged words.
-pRawTagged :: Parser String
-pRawTagged = iI (</>) pRawWord '/' pRawPOS Ii
-  where
-    (</>) :: String -> String -> String
-    x </> y = x ++ "/" ++ y
+pTagged = lexeme $ iI (,) pText '/' pPOS Ii
 
 -- |Parser for part-of-speech tagged phrases.
 pSentence :: Parser [(Word, POS)]
