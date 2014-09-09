@@ -12,8 +12,7 @@ build-type:          Simple
 cabal-version:       >=1.10
 
 library
-  build-depends:     base >=4.7 && <4.8, containers, ListLike, monad-supply,
-                     uu-parsinglib
+  build-depends:     base >=4.7 && <4.8, containers, monad-supply, uu-parsinglib
   hs-source-dirs:    src
   exposed-modules:   Language.Word
                    , Language.Word.Parse
@@ -28,43 +27,20 @@ library
 
 executable printdep
   main-is:           PrintDep.hs
-  build-depends:     base >=4.7 && <4.8, containers, ListLike, monad-supply,
-                     uu-parsinglib
+  build-depends:     base >=4.7 && <4.8, containers, dep2con, uu-parsinglib
   hs-source-dirs:    src
-  other-modules:     Language.Word
-                   , Language.Word.Parse
-                   , Language.POS
-                   , Language.POS.Parse
-                   , Language.Structure.Dependency
-                   , Language.Structure.Dependency.Parse
   default-language:  Haskell2010
 
 
 executable printcon
   main-is:           PrintCon.hs
-  build-depends:     base >=4.7 && <4.8, containers, ListLike, monad-supply,
-                     uu-parsinglib
+  build-depends:     base >=4.7 && <4.8, containers, dep2con, monad-supply, uu-parsinglib
   hs-source-dirs:    src
-  other-modules:     Language.Word
-                   , Language.Word.Parse
-                   , Language.POS
-                   , Language.POS.Parse
-                   , Language.Structure.Constituency
-                   , Language.Structure.Constituency.Parse
   default-language:  Haskell2010
 
 
 executable dep2con
   main-is:           Dep2Con.hs
-  build-depends:     base >=4.7 && <4.8, containers, ListLike, monad-supply,
-                     uu-parsinglib
+  build-depends:     base >=4.7 && <4.8, containers, dep2con, uu-parsinglib
   hs-source-dirs:    src
-  other-modules:     Language.Word
-                   , Language.Word.Parse
-                   , Language.POS
-                   , Language.POS.Parse
-                   , Language.Structure.Dependency
-                   , Language.Structure.Dependency.Parse
-                   , Language.Structure.Constituency
-                   , Language.Structure.Conversion.Dep2Con
   default-language:  Haskell2010
