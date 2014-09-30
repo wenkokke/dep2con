@@ -1,9 +1,9 @@
 module Language.Structure.Conversion.Dep2Con where
 
-import           Data.List (insert)
+import           Data.List (insert,delete,minimumBy)
 import           Language.POS (POS(POS), toXP, toX')
 import qualified Language.Structure.Constituency as Con
-import           Language.Structure.Dependency (dependent)
+import           Language.Structure.Dependency (govenor,dependent)
 import qualified Language.Structure.Dependency as Dep
 import           Language.Word (Word(Word,index))
 
@@ -22,11 +22,11 @@ xs <: x = xs ++ [x]
 covington :: (Word -> POS) -> Dep.Tree -> Con.Tree
 covington tag (Dep.Node gov deps) =
   Con.Node xp
-    ( map (covington tag . dependent) specs
+    ( map (covington tag) specs
     <: Con.Node x'
-      ( map (covington tag . dependent) mods
+      ( map (covington tag) mods
       <: Con.Node x'
-        ( map (covington tag . dependent) args
+        ( map (covington tag) args
         <: Con.Node x
           [
             Con.Leaf gov
@@ -38,9 +38,11 @@ covington tag (Dep.Node gov deps) =
     xp    = toXP x
     x'    = toX' x
     x     = tag gov
-    specs = filter (isSpec x) deps
-    mods  = filter (isMod x) deps
-    args  = filter (isArg x) deps
+    i     = index gov
+    deps' = map dependent deps
+    specs = filter ((<i) . index . govenor) deps'
+    mods  = filter ((>i) . index . govenor) deps'
+    args  = undefined
 
 
 -- |Convert dependency structures to constituency structures,

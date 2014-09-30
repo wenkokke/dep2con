@@ -9,7 +9,7 @@ import Language.Word (Word(Word))
 data Tree
   = Leaf Word
   | Node POS [Tree]
-  deriving (Eq, Show)
+  deriving (Eq)
 
 
 drawTree :: Tree -> String
@@ -27,3 +27,8 @@ index (Node _ rest) = minimum (map index rest)
 
 instance Ord Tree where
   compare x y = compare (index x) (index y)
+
+
+instance Show Tree where
+  show (Leaf lbl)      = show lbl
+  show (Node pos rest) = "(" ++ unwords (show pos : map show rest) ++ ")"

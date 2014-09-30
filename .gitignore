@@ -11,3 +11,4 @@ cabal.sandbox.config
 cabal.config
 TAGS
 Setup.hs
+/bin/

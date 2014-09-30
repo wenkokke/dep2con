@@ -25,4 +25,4 @@ main = do
   let depTree  = runParser depFile Dep.pTree depContents
   let conTree  = collins tag depTree
 
-  putStrLn (Con.drawTree conTree)
+  print conTree
