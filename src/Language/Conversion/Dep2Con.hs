@@ -1,4 +1,4 @@
-module Language.Structure.Conversion.Dep2Con where
+module Language.Conversion.Dep2Con where
 
 import           Data.List (insert)
 import           Language.POS (POS (..), toXP)
