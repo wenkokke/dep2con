@@ -1,8 +1,0 @@
-nsubj(ate-2, John-1)
-root(ROOT-0, ate-2)
-det(cake-5, a-3)
-amod(cake-5, tasty-4)
-dobj(ate-2, cake-5)
-mark(baked-8, that-6)
-nsubj(baked-8, Mary-7)
-ccomp(ate-2, baked-8)

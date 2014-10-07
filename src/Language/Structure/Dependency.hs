@@ -1,48 +1,30 @@
 module Language.Structure.Dependency where
 
 import qualified Data.Tree as Rose
-import Language.POS (POS)
 import Language.Word (Word(Word))
-
-
--- |Labels are labels on the links in a dependency tree.
-newtype Label = Label String
-              deriving (Eq)
-
-instance Show Label where
-  show (Label d) = d
-
--- |Links in a dependency tree allow for the edges between two nodes
---  to be labelled with labels.
-data Link
-  = Link
-    { label     :: Label
-    , dependent :: Tree
-    }
-  deriving (Eq, Show)
 
 
 -- |Dependency trees are rose trees with words on both internal nodes
 --  and leaves, and label on the links.
 data Tree
   = Node
-    { govenor   :: Word
-    , subForest :: [Link]
+    { govenor    ::  Word
+    , dependents :: [Tree]
     }
   deriving (Eq, Show)
 
+instance Ord Tree where
+  compare x y = compare (leftMostIndex x) (leftMostIndex y)
+
+
+-- | Get the left-most index from a dependency tree.
+leftMostIndex :: Tree -> Int
+leftMostIndex (Node (Word _ _ i) deps) = minimum (i : map leftMostIndex deps)
+
+
+-- | Convert the tree to an instance of `Data.Tree` and draw it.
 drawTree :: Tree -> String
 drawTree ct = Rose.drawTree (go ct)
   where
     go :: Tree -> Rose.Tree String
-    go (Node gov deps) = Rose.Node (show gov) (map (go . dependent) deps)
-
-
-index :: Tree -> Int
-index (Node (Word _ i) deps) = minimum (i : map (index . dependent) deps)
-
-instance Ord Tree where
-  compare x y = compare (index x) (index y)
-
-instance Ord Link where
-  compare (Link _ x) (Link _ y) = compare x y
+    go (Node gov deps) = Rose.Node (show gov) (map go deps)

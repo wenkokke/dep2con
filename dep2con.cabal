@@ -21,7 +21,7 @@ library
                    , Language.Structure.Dependency
                    , Language.Structure.Dependency.Parse
                    , Language.Structure.Constituency
-                   , Language.Structure.Conversion.Dep2Con
+                   , Language.Conversion.Dep2Con
   default-language:  Haskell2010
 
 
@@ -30,14 +30,6 @@ executable printdep
   build-depends:     base >=4.7 && <4.8, containers, dep2con, uu-parsinglib
   hs-source-dirs:    src
   default-language:  Haskell2010
-
-
-executable printcon
-  main-is:           PrintCon.hs
-  build-depends:     base >=4.7 && <4.8, containers, dep2con, monad-supply, uu-parsinglib
-  hs-source-dirs:    src
-  default-language:  Haskell2010
-
 
 executable dep2con
   main-is:           Dep2Con.hs
