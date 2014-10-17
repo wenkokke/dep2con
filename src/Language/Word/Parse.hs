@@ -8,8 +8,8 @@ import Control.Applicative ((<$>),(<|>))
 import Text.ParserCombinators.UU (pSome,(<?>))
 import Text.ParserCombinators.UU.BasicInstances (Parser)
 import Text.ParserCombinators.UU.Idioms (iI,Ii (..))
-import Text.ParserCombinators.UU.Utils (lexeme,pQuotedString,pNatural)
+import Text.ParserCombinators.UU.Utils (lexeme,pQuotedString,pInteger)
 
 -- | Parser for words.
 pWord :: Parser Word
-pWord = iI Word pQuotedString '/' pPOS '/' pNatural Ii <?> "Word"
+pWord = iI Word pQuotedString '/' pPOS '/' pInteger Ii <?> "Word"

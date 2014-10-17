@@ -1,13 +1,12 @@
 module Language.POS where
 
-
 -- | Part-of-speech tags are represented as simple strings.
 newtype POS
-      = POS { unPOS :: String }
+      = POS String
       deriving (Eq, Ord)
 
 instance Show POS where
-  show (POS pos) = pos
+  show (POS pos) = show pos
 
 -- | Conversion to a phrasal tag.
 toXP :: POS -> POS
