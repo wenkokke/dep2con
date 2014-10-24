@@ -12,3 +12,4 @@ cabal.config
 TAGS
 Setup.hs
 /bin/
+.shake.database

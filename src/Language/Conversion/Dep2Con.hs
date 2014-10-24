@@ -12,6 +12,7 @@ import           Language.Word (Word (Word,pos))
 collins :: Dep.Tree -> Con.Tree
 collins (Dep.Node (Word "ROOT" (POS "ROOT") 0) deps)
   = Con.Node (POS "ROOT") (map collins deps)
+    -- Just to make sure that ROOT doesn't project to RP
 collins (Dep.Node gov [])
   = Con.Node (pos gov) [Con.Leaf gov]
 collins (Dep.Node gov deps)
