@@ -1,8 +1,0 @@
-My/PRP$ dog/NN also/RB likes/VBZ eating/VBG sausage/NN ./.
-
-poss(dog-2, My-1)
-nsubj(likes-4, dog-2)
-advmod(likes-4, also-3)
-root(ROOT-0, likes-4)
-xcomp(likes-4, eating-5)
-dobj(eating-5, sausage-6)

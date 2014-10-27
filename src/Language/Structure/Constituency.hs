@@ -33,3 +33,8 @@ drawTree = Rose.drawTree . go
     go :: Tree -> Rose.Tree String
     go (Leaf word) = Rose.Node (show word) []
     go (Node pos rest) = Rose.Node (show pos) (map go rest)
+
+-- | Convert a given tree to a Markdown representation of it.
+pretty :: Tree -> String
+pretty (Leaf (Word txt _ _)) = show txt
+pretty (Node pos children)   = "(" ++ unwords (show pos : map pretty children) ++ ")"

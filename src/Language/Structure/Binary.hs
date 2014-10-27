@@ -1,8 +1,9 @@
 module Language.Structure.Binary where
 
 import qualified Data.Tree as Rose
-import Language.POS (POS)
-import Language.Word (Word (Word))
+import           Language.POS (POS)
+import           Language.Word (Word (Word))
+import           Text.Printf (printf)
 
 
 -- | Constituency trees are rose trees with POS tags in their nodes and words in
@@ -26,10 +27,15 @@ leftMostIndex (Leaf (Word _ _ i)) = i
 leftMostIndex (Node _ l r) = leftMostIndex l `min` leftMostIndex r
 
 
--- | Convert the tree to an instance of `Data.Tree` and draw it.
+-- | Convert a given tree to an instance of `Data.Tree` and draw it.
 drawTree :: Tree -> String
 drawTree = Rose.drawTree . go
   where
     go :: Tree -> Rose.Tree String
     go (Leaf word)    = Rose.Node (show word) []
     go (Node pos l r) = Rose.Node (show pos) (map go [l,r])
+
+-- | Convert a given tree to a Markdown representation of it.
+pretty :: Tree -> String
+pretty (Leaf (Word txt _ _)) = show txt
+pretty (Node pos left right) = printf "(%s %s %s)" (show pos) (pretty left) (pretty right)

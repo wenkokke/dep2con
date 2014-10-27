@@ -1,10 +1,11 @@
 module Language.Conversion.Dep2Bin where
 
+import           Data.Foldable (foldMap)
 import           Data.List (sortBy)
 import           Data.Monoid ((<>))
+import           Data.Ord (comparing)
 import           Language.POS (POS (..), toX', toXP)
 import qualified Language.Structure.Binary       as Bin
-import           Language.Structure.Dependency (leftMostIndex)
 import qualified Language.Structure.Dependency   as Dep
 import           Language.Word (Word (..))
 
@@ -14,18 +15,29 @@ import           Language.Word (Word (..))
 toledo :: Dep.Tree -> Bin.Tree
 toledo (Dep.Node (Word "ROOT" (POS "ROOT") 0) [dep]) = toledo dep
 toledo (Dep.Node gov []) = Bin.Leaf gov
-toledo (Dep.Node gov deps)
+toledo (Dep.Node gov deps) = let
 
-  = Bin.Node xp (Bin.Leaf gov)
-    . foldr1 (Bin.Node x')
-    . map toledo
-    . sortBy (nearestThenLeftMost (serial gov))
-    $ deps
+  x      = pos gov
+  xp     = toXP x
 
-  where
-    x  = pos gov
-    x' = toX' x
-    xp = toXP x
+  sorted :: [Dep.Tree]
+  sorted = sortBy (flip $ nearestThenLeftMost (serial gov)) deps
+
+  asbin  :: [Bin.Tree]
+  asbin  = map toledo sorted
+
+  asfunc :: Bin.Tree -> Bin.Tree
+  asfunc = foldr ((.) . mkNode xp) id asbin
+
+  in asfunc (Bin.Leaf gov)
+
+
+-- |Compute a node with the right left/right.
+mkNode :: POS -> Bin.Tree -> Bin.Tree -> Bin.Tree
+mkNode pos x y =
+  if Bin.leftMostIndex x < Bin.leftMostIndex y
+  then Bin.Node pos x y
+  else Bin.Node pos y x
 
 
 -- |Compute the minimum distance from any node in the (sub-)tree to a
@@ -39,5 +51,5 @@ minDistance i = minimum . map (abs . (i -) . serial) . Dep.allWords
 nearestThenLeftMost :: Int -> Dep.Tree -> Dep.Tree -> Ordering
 nearestThenLeftMost i x y = byDistanceToGovernor <> byIndex
   where
-    byDistanceToGovernor = minDistance i x `compare` minDistance i y
-    byIndex              = leftMostIndex x `compare` leftMostIndex y
+    byDistanceToGovernor = comparing (minDistance i) x y
+    byIndex              = comparing Dep.leftMostIndex x y
