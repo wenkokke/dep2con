@@ -10,9 +10,12 @@ import           Language.Word (Word (Word,pos))
 -- |Convert dependency structures to constituency structures,
 --  ensuring that only the minimal number of projections are made.
 collins :: Dep.Tree -> Con.Tree
+
+-- Special case: keep ROOT node intact, making sure it doesn't project to RP.
 collins (Dep.Node (Word "ROOT" (POS "ROOT") 0) deps)
   = Con.Node (POS "ROOT") (map collins deps)
-    -- Just to make sure that ROOT doesn't project to RP
+
+-- Collins' algorithm:
 collins (Dep.Node gov [])
   = Con.Node (pos gov) [Con.Leaf gov]
 collins (Dep.Node gov deps)

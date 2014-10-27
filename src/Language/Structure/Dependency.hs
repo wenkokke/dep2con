@@ -1,7 +1,7 @@
 module Language.Structure.Dependency where
 
 import qualified Data.Tree as Rose
-import Language.Word (Word(Word))
+import Language.Word (Word(Word,serial))
 
 
 -- |Dependency trees are rose trees with words on both internal nodes
@@ -28,3 +28,23 @@ drawTree ct = Rose.drawTree (go ct)
   where
     go :: Tree -> Rose.Tree String
     go (Node gov deps) = Rose.Node (show gov) (map go deps)
+
+
+-- | Compute a list of all descendents from a dependency tree.
+descendents :: Tree -> [Word]
+descendents = concatMap go . dependents
+  where
+    go :: Tree -> [Word]
+    go (Node gov deps) = gov : concatMap go deps
+
+
+-- | Enumerate all words in a dependency tree.
+allWords :: Tree -> [Word]
+allWords (Node gov deps) = gov : concatMap allWords deps
+
+-- | Compute the dependencies for a given word.
+dependencies :: Word -> Tree -> [Word]
+dependencies _ (Node _ []) = []
+dependencies w1 tree@(Node w2 deps)
+  | w1  ==  w2 = descendents tree
+  | otherwise = concatMap (dependencies w1) deps
