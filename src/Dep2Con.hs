@@ -1,17 +1,25 @@
 {-# LANGUAGE DeriveDataTypeable, FlexibleContexts #-}
 
-import qualified Language.Conversion.Dep2Con         as Dep2Con (collins)
-import qualified Language.Structure.Constituency     as Con (drawTree)
-import qualified Language.Structure.Dependency       as Dep (Tree)
-import qualified Language.Structure.Dependency.Parse as Dep (pTree,pDeps)
+import qualified Language.Conversion.Dep2Con         as Dep2Con
+import qualified Language.Structure.Constituency     as Con
+import qualified Language.Structure.Dependency       as Dep
+import qualified Language.Structure.Dependency.Parse as Dep
 import           System.Console.CmdArgs
 import           Text.ParserCombinators.UU.BasicInstances (Parser)
 import           Text.ParserCombinators.UU.Utils (runParser)
 
 
+
+data Output
+   = Default
+   | ASCII
+   | Markdown
+   deriving (Data, Typeable)
+
+
 data Options = Options
   { stanfordDependencies :: Bool
-  , drawTree             :: Bool
+  , output               :: Output
   } deriving (Data, Typeable)
 
 
@@ -20,8 +28,8 @@ defaultOptions = Options
   { stanfordDependencies = False
                         &= help "Parse Stanford-style dependencies."
 
-  , drawTree             = False
-                        &= help "Print output as an ASCII tree."
+  , output               = Default
+                        &= help "Set output format (default, ASCII or markdown)"
   }
   &= summary "Dep2Con v1.0, (c) Pepijn Kokke 2014"
   &= program "dep2con"
@@ -37,10 +45,8 @@ main = do
       depTree = runParser "StdIn" parser cont
       conTree = Dep2Con.collins depTree
 
-  putStrLn
-    $ (
-      if drawTree opts
-      then Con.drawTree
-      else show
-      )
-    conTree
+  case output opts of
+
+   Default  -> print conTree
+   ASCII    -> putStrLn (Con.asASCII conTree)
+   Markdown -> putStrLn (Con.asMarkdown conTree)

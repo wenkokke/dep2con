@@ -1,5 +1,7 @@
 {-# LANGUAGE DeriveDataTypeable, FlexibleContexts #-}
 
+import qualified Language.Conversion.Dep2Con         as Dep2Con
+import qualified Language.Conversion.Con2Bin         as Con2Bin
 import qualified Language.Conversion.Dep2Bin         as Dep2Bin
 import qualified Language.Structure.Binary           as Bin
 import qualified Language.Structure.Dependency       as Dep
@@ -9,30 +11,55 @@ import           Text.ParserCombinators.UU.BasicInstances (Parser)
 import           Text.ParserCombinators.UU.Utils (runParser)
 
 
+data Input
+  = DefaultInput
+  | Stanford
+  deriving (Data, Typeable)
+
+
+
+data Algorithm
+  = DefaultAlgorithm
+  | CollinsToledo
+  | Collins
+  | Toledo
+  deriving (Data, Typeable)
+
 
 data Output
-   = Default
+   = DefaultOutput
    | ASCII
    | Markdown
    deriving (Data, Typeable)
 
 
 data Options = Options
-  { stanfordDependencies :: Bool
-  , output               :: Output
+  { input     :: Input
+  , algorithm :: Algorithm
+  , output    :: Output
   } deriving (Data, Typeable)
 
 
 defaultOptions :: Options
 defaultOptions = Options
-  { stanfordDependencies = False
-                        &= help "Parse Stanford-style dependencies."
+  { input     = DefaultInput
+             &= help "Set input format (default, Stanford)."
 
-  , output               = Default
-                        &= help "Set output format (default, ASCII or markdown)"
+  , algorithm = DefaultAlgorithm
+             &= help "Set conversion algorithm (default, Collins-Toledo)."
+
+  , output    = DefaultOutput
+             &= help "Set output format (default, ASCII or Markdown)."
   }
-  &= summary "Dep2Con v1.0, (c) Pepijn Kokke 2014"
-  &= program "dep2con"
+  &= summary "Dep2Bin v1.0, (c) Pepijn Kokke 2014"
+  &= program "dep2bin"
+
+
+composition :: Dep.Tree -> Bin.Tree
+composition dep = bin
+  where
+    con = Dep2Con.collins dep
+    bin = Con2Bin.toledo dep con
 
 
 main :: IO ()
@@ -41,12 +68,16 @@ main = do
   cont <- getContents
 
   let parser  :: Parser Dep.Tree
-      parser  = if stanfordDependencies opts then Dep.pDeps else Dep.pTree
+      parser  = case input opts of
+                 DefaultInput -> Dep.pTree
+                 Stanford     -> Dep.pDeps
       depTree = runParser "StdIn" parser cont
-      binTree = Dep2Bin.toledo depTree
+      binTree = case algorithm opts of
+                 DefaultAlgorithm -> Dep2Bin.collinsToledo depTree
+                 CollinsToledo    -> composition depTree
 
   case output opts of
 
-   Default  -> print binTree
-   ASCII    -> putStrLn (Bin.drawTree binTree)
-   Markdown -> putStrLn (Bin.pretty binTree)
+   DefaultOutput -> print binTree
+   ASCII         -> putStrLn (Bin.asASCII binTree)
+   Markdown      -> putStrLn (Bin.asMarkdown binTree)
