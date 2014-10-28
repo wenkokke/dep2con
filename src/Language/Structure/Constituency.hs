@@ -66,4 +66,4 @@ asASCII = Rose.drawTree . go
 -- |Convert a given tree to a Markdown representation of it.
 asMarkdown :: Tree -> String
 asMarkdown (Leaf (Word txt _ _)) = show txt
-asMarkdown (Node pos children)   = "(" ++ unwords (show pos : map asMarkdown children) ++ ")"
+asMarkdown (Node pos children)   = "[" ++ unwords (show pos : map asMarkdown children) ++ "]"

@@ -45,4 +45,11 @@ asASCII = Rose.drawTree . go
 -- |Convert a given tree to a Markdown representation of it.
 asMarkdown :: Tree -> String
 asMarkdown (Leaf (Word txt _ _)) = show txt
-asMarkdown (Node pos left right) = printf "(%s %s %s)" (show pos) (asMarkdown left) (asMarkdown right)
+asMarkdown (Node pos left right) = printf "[%s %s %s]" (show pos) (asMarkdown left) (asMarkdown right)
+
+
+-- |Check if two trees are structurally equal.
+(==^) :: Tree -> Tree -> Bool
+(Leaf (Word _ _ i)) ==^ (Leaf (Word _ _ j)) = i == j
+(Node _ l1 r1)      ==^ (Node _ l2 r2)      = l1 ==^ l2 && r1 ==^ r2
+_                   ==^ _                   = False

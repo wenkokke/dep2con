@@ -5,10 +5,11 @@ import           Data.List (delete, sortBy, minimumBy)
 import           Data.Maybe (fromMaybe)
 import           Data.Ord (comparing)
 import           Language.POS (toXP)
-import qualified Language.Structure.Binary as Bin
+import qualified Language.Structure.Binary       as Bin
 import qualified Language.Structure.Constituency as Con
-import qualified Language.Structure.Dependency as Dep
+import qualified Language.Structure.Dependency   as Dep
 import           Language.Word (Word (..))
+import           Debug.Trace (traceShow)
 
 
 -- |Convert dependency structures to binary constituency structures,
@@ -36,7 +37,7 @@ toledo dep (Con.Node _ children) = let
   asfunc :: Bin.Tree -> Bin.Tree
   asfunc = foldr ((.) . Bin.node xp) id asbin
 
-  in asfunc (toledo dep gov)
+  in traceShow sorted $ asfunc (toledo dep gov)
 
 
 -- |Compute the depth of a word in the dependency tree.

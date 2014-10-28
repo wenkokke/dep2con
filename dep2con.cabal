@@ -13,9 +13,7 @@ cabal-version:       >=1.10
 
 library
   build-depends:     base >=4.7 && <4.8
-                   , cmdargs >= 0.10.11
                    , containers
-                   , monad-supply
                    , uu-parsinglib
   hs-source-dirs:    src
   exposed-modules:   Language.Word
@@ -32,9 +30,8 @@ library
 executable dep2con
   main-is:           Dep2Con.hs
   build-depends:     base >=4.7 && <4.8
-                   , cmdargs
-                   , cmdargs >= 0.10.11
                    , containers
+                   , cmdargs
                    , dep2con
                    , uu-parsinglib
   hs-source-dirs:    src
@@ -44,10 +41,23 @@ executable dep2con
 executable dep2bin
   main-is:           Dep2Bin.hs
   build-depends:     base >=4.7 && <4.8
-                   , cmdargs
-                   , cmdargs >= 0.10.11
                    , containers
+                   , cmdargs
                    , dep2con
                    , uu-parsinglib
   hs-source-dirs:    src
   default-language:  Haskell2010
+
+test-suite test-conversion
+  type:              exitcode-stdio-1.0
+  main-is:           TestConversion.hs
+  build-depends:     base >=4.7 && <4.8
+                   , containers
+                   , dep2con
+                   , Glob
+                   , uu-parsinglib
+  hs-source-dirs:    src
+                   , test
+  default-language:  Haskell2010
+
+
