@@ -4,9 +4,9 @@ synopsis:            Several algorithms for converting dependency
                      structures into constituency structures. 
 license:             BSD3
 license-file:        LICENSE
-author:              Pepijn Kokke
-maintainer:          pepijn.kokke@gmail.com
-copyright:           Pepijn Kokke (c) 2014
+author:              Wen Kokke
+maintainer:          wen.kokke@gmail.com
+copyright:           Wen Kokke (c) 2014
 category:            Language
 build-type:          Simple
 cabal-version:       >=1.10
