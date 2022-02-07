@@ -31,7 +31,7 @@ defaultOptions = Options
   , output               = Default
                         &= help "Set output format (default, ASCII or markdown)"
   }
-  &= summary "Dep2Con v1.0, (c) Pepijn Kokke 2014"
+  &= summary "Dep2Con v1.0, (c) Wen Kokke 2014"
   &= program "dep2con"
 
 
@@ -42,6 +42,7 @@ main = do
 
   let parser  :: Parser Dep.Tree
       parser  = if stanfordDependencies opts then Dep.pDeps else Dep.pTree
+      depTree :: Dep.Tree
       depTree = runParser "StdIn" parser cont
       conTree = Dep2Con.collins depTree
 

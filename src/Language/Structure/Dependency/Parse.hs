@@ -1,6 +1,7 @@
 {-# LANGUAGE RankNTypes, FlexibleContexts #-}
 module Language.Structure.Dependency.Parse (pTree,pDeps) where
 
+import           Prelude hiding (Word)
 import           Control.Applicative ((<|>),(<*>),(<*),(*>))
 import           Data.Char (isSpace)
 import           Data.List (sort)

@@ -1,6 +1,7 @@
 {-# LANGUAGE FlexibleContexts #-}
 module Language.Word.Parse (pWord) where
 
+import Prelude hiding (Word)
 import Language.POS.Parse (pPOS)
 import Language.Word (Word(..))
 import Text.ParserCombinators.UU ((<?>))

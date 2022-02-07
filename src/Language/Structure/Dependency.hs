@@ -1,5 +1,6 @@
 module Language.Structure.Dependency where
 
+import           Prelude hiding (Word)
 import           Data.List (sortBy)
 import           Data.Monoid ((<>))
 import qualified Data.Tree as Rose

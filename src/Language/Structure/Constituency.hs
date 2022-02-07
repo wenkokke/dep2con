@@ -1,5 +1,6 @@
 module Language.Structure.Constituency where
 
+import           Prelude hiding (Word)
 import           Data.Monoid ((<>))
 import qualified Data.Tree as Rose
 import           Language.POS (POS)

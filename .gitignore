@@ -14,3 +14,4 @@ Setup.hs
 /bin/
 .shake.database
 .DS_Store
+dist-newstyle/

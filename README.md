@@ -61,9 +61,11 @@ format---and dependency trees is that dependency trees store words at
 every node, whereas in constituency trees only store words in the
 leaves, and the nodes are marked with part-of-speech tags.
 
-> data Tree =
->      Leaf Word
->    | Node POS [Tree]
+```haskell
+data Tree
+   = Leaf Word
+   | Node POS [Tree]
+```
 
 The printing algorithm for constituency trees is very similar to the
 one for parsing dependency trees, so the following is a valid
@@ -112,16 +114,17 @@ constituency trees from dependency trees. The algorithm is as follows:
 
 Here is the algorithm written out in Haskell:
 
-> collins :: Dep.Tree -> Con.Tree
-> collins (Dep.Node gov [])   = Con.Node (pos gov) [Con.Leaf gov]
-> collins (Dep.Node gov deps) = Con.Node xp (insert gov' deps')
->   where
->     x     = pos gov :: POS
->     xp    = toXP x  :: POS
->     gov'  = Con.Node x [Con.Leaf gov] ::  Con.Tree
->     deps' = map collins deps          :: [Con.Tree]
->        -- ^ apply `collins` to each dependency
-
+```haskell
+collins :: Dep.Tree -> Con.Tree
+collins (Dep.Node gov [])   = Con.Node (pos gov) [Con.Leaf gov]
+collins (Dep.Node gov deps) = Con.Node xp (insert gov' deps')
+  where
+    x     = pos gov :: POS
+    xp    = toXP x  :: POS
+    gov'  = Con.Node x [Con.Leaf gov] ::  Con.Tree
+    deps' = map collins deps          :: [Con.Tree]
+       -- ^ apply `collins` to each dependency
+```
 
 
 ### References

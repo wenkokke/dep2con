@@ -1,6 +1,7 @@
 {-# LANGUAGE RankNTypes, FlexibleContexts #-}
 module Language.Structure.Constituency.Parse (pTree) where
 
+import Prelude hiding (Word)
 import Control.Applicative ((<$>),(<|>),(<*>))
 import Language.POS (POS(POS))
 import Language.Structure.Constituency (Tree(..))

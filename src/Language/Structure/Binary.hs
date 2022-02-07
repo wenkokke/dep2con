@@ -1,5 +1,6 @@
 module Language.Structure.Binary where
 
+import           Prelude hiding (Word)
 import qualified Data.Tree as Rose
 import           Language.POS (POS)
 import           Language.Word (Word (Word))

@@ -51,7 +51,7 @@ defaultOptions = Options
   , output    = DefaultOutput
              &= help "Set output format (default, ASCII or Markdown)."
   }
-  &= summary "Dep2Bin v1.0, (c) Pepijn Kokke 2014"
+  &= summary "Dep2Bin v1.0, (c) Wen Kokke 2014"
   &= program "dep2bin"
 
 
@@ -71,6 +71,7 @@ main = do
       parser  = case input opts of
                  DefaultInput -> Dep.pTree
                  Stanford     -> Dep.pDeps
+      depTree :: Dep.Tree
       depTree = runParser "StdIn" parser cont
       binTree = case algorithm opts of
                  DefaultAlgorithm -> Dep2Bin.collinsToledo depTree

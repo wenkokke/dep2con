@@ -1,63 +1,53 @@
+cabal-version:       3.4
+
 name:                dep2con
 version:             0.1.0.0
 synopsis:            Several algorithms for converting dependency
                      structures into constituency structures. 
-license:             BSD3
-license-file:        LICENSE
+license:             BSD-3-Clause
 author:              Wen Kokke
 maintainer:          wen.kokke@gmail.com
 copyright:           Wen Kokke (c) 2014
 category:            Language
 build-type:          Simple
-cabal-version:       >=1.10
 
-library
-  build-depends:     base >=4.7 && <4.8
+common dep2common
+  build-depends:     base >=4.7 && <5
                    , containers
-                   , uu-parsinglib
+                   , cmdargs
+                   , uu-parsinglib >=2.9 && <3
   hs-source-dirs:    src
-  exposed-modules:   Language.Word
-                   , Language.Word.Parse
-                   , Language.POS
-                   , Language.POS.Parse
-                   , Language.Structure.Dependency
-                   , Language.Structure.Dependency.Parse
-                   , Language.Structure.Constituency
-                   , Language.Conversion.Dep2Con
+  other-modules:
+      , Data.String.Utils
+      , Language.Word
+      , Language.Word.Parse
+      , Language.POS
+      , Language.POS.Parse
+      , Language.Structure.Dependency
+      , Language.Structure.Dependency.Parse
+      , Language.Conversion.Con2Bin
+      , Language.Conversion.Dep2Bin
+      , Language.Conversion.Dep2Con
+      , Language.Structure.Binary
+      , Language.Structure.Constituency
   default-language:  Haskell2010
 
 
 executable dep2con
+  import:            dep2common
   main-is:           Dep2Con.hs
-  build-depends:     base >=4.7 && <4.8
-                   , containers
-                   , cmdargs
-                   , dep2con
-                   , uu-parsinglib
-  hs-source-dirs:    src
-  default-language:  Haskell2010
 
 
 executable dep2bin
+  import:            dep2common
   main-is:           Dep2Bin.hs
-  build-depends:     base >=4.7 && <4.8
-                   , containers
-                   , cmdargs
-                   , dep2con
-                   , uu-parsinglib
-  hs-source-dirs:    src
-  default-language:  Haskell2010
+
 
 test-suite test-conversion
+  import:            dep2common
   type:              exitcode-stdio-1.0
   main-is:           TestConversion.hs
-  build-depends:     base >=4.7 && <4.8
-                   , containers
-                   , dep2con
-                   , Glob
-                   , uu-parsinglib
-  hs-source-dirs:    src
-                   , test
-  default-language:  Haskell2010
+  build-depends:     Glob
+  hs-source-dirs:    test
 
 

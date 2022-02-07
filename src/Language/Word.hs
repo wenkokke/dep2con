@@ -1,5 +1,6 @@
 module Language.Word (Word (..)) where
 
+import Prelude hiding (Word)
 import Language.POS (POS (..))
 import Data.String.Utils (quoteString)
 

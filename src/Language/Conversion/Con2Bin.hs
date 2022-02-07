@@ -1,5 +1,6 @@
 module Language.Conversion.Con2Bin where
 
+import           Prelude hiding (Word)
 import           Control.Monad (msum)
 import           Data.List (delete, sortBy, minimumBy)
 import           Data.Maybe (fromMaybe)
