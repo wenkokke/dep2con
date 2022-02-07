@@ -10,6 +10,7 @@ maintainer:          wen.kokke@gmail.com
 copyright:           Wen Kokke (c) 2014
 category:            Language
 build-type:          Simple
+tested-with:         GHC==8.10.7
 
 common dep2common
   build-depends:     base >=4.7 && <5
@@ -30,6 +31,8 @@ common dep2common
       , Language.Conversion.Dep2Con
       , Language.Structure.Binary
       , Language.Structure.Constituency
+      , Language.Structure.Constituency.Parse
+      , Paths_dep2con
   default-language:  Haskell2010
 
 
